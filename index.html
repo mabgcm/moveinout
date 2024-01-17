@@ -29,22 +29,17 @@
       try {
         const response = await axios.request(options);
 
-        // Check if response has numerical keys
-        if (response.data && typeof response.data === 'object') {
-          // Extract the array from the numerical keys
-          const agentsArray = Object.values(response.data);
-          
-          // Check if agentsArray is an array
-          if (Array.isArray(agentsArray)) {
-            // Iterate through the array and print agent names
-            agentsArray.forEach(agent => {
-              console.log(agent.Name);
-            });
-          } else {
-            console.error('Invalid data format inside numerical keys. Expected an array.');
-          }
+        // Access the agent names from the "Results" array
+        const agents = response.data.Results;
+
+        // Check if agents is an array
+        if (Array.isArray(agents)) {
+          // Iterate through the array and print agent names
+          agents.forEach(agent => {
+            console.log(agent.Name);
+          });
         } else {
-          console.error('Invalid data format. Expected an object with numerical keys.');
+          console.error('Invalid data format inside "Results". Expected an array.');
         }
 
       } catch (error) {
