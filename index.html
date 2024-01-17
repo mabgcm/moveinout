@@ -11,6 +11,8 @@
   <div id="agentsList"></div>
   <div id="pagination"></div>
 
+  <div id="agentDetails"></div>
+
   <script>
     const pageSize = 10; // Number of agents per page
     let currentPage = 1; // Initial page
@@ -76,8 +78,17 @@
         const detailsResponse = await axios.request(detailsOptions);
         const agentDetails = detailsResponse.data;
 
-        // Display agent details as needed
-        console.log(agentDetails);
+        // Display agent details on the screen
+        const agentDetailsElement = document.getElementById('agentDetails');
+        agentDetailsElement.innerHTML = `
+          <h2>${agentDetails.Name}</h2>
+          <p>Organization: ${agentDetails.Organization.Name}</p>
+          <p>Email: ${agentDetails.Emails[0].ContactId}</p>
+          <!-- Add more details as needed -->
+        `;
+
+        // Simulate navigation to a different page
+        window.location.hash = `agent/${agentId}`;
 
       } catch (error) {
         console.error(error);
