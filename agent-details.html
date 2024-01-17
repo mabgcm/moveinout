@@ -47,8 +47,6 @@
                 <img src="${agentDetails.PhotoHighRes}" alt="Agent Photo" style="max-width: 100%; border-radius: 5px; margin-bottom: 15px;">
                 <p style="margin-bottom: 5px;">Organization: ${agentDetails.Organization.Name}</p>
                 <p style="margin-bottom: 5px;">Position: ${agentDetails.Position}</p>
-                ${agentDetails.Emails && agentDetails.Emails.length > 0 ? `<p style="margin-bottom: 5px;">Email: ${agentDetails.Emails[0].ContactId}</p>` : ''}
-                ${agentDetails.Phones && agentDetails.Phones.length > 0 ? `<p style="margin-bottom: 5px;">Phone: ${agentDetails.Phones[0].AreaCode} ${agentDetails.Phones[0].PhoneNumber}</p>` : ''}
                 <p style="margin-bottom: 5px;">Address: ${agentDetails.Organization.Address.AddressText}</p>
                 <p style="margin-bottom: 5px;">Website: <a href="${agentDetails.Organization.Websites[0].Website}" target="_blank">${agentDetails.Organization.Websites[0].Website}</a></p>
                 <p style="margin-bottom: 5px;">Relative Details URL: <a href="https://realtor.ca${agentDetails.RelativeDetailsURL}" target="_blank">realtor.ca${agentDetails.RelativeDetailsURL}</a></p>
