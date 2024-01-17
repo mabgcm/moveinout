@@ -1,4 +1,11 @@
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Names</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f4f4f4;
@@ -47,11 +54,16 @@
       background-color: #0056b3;
     }
   </style>
-  
+</head>
+<body>
+
+  <div id="agentsList"></div>
+  <div id="pagination"></div>
+
   <script>
-    const pageSize = 10; // Number of agents per page
+    const pageSize = 50; // Number of agents per page
     let currentPage = 1; // Initial page
-  
+
     async function fetchData(page) {
       const options = {
         method: 'GET',
@@ -68,29 +80,27 @@
           'X-RapidAPI-Host': 'realty-in-ca1.p.rapidapi.com'
         }
       };
-  
+
       try {
         const response = await axios.request(options);
         const agents = response.data.Results;
-  
+
         // Display agent names on the screen
         const agentsListElement = document.getElementById('agentsList');
-        agentsListElement.innerHTML = agents.map(agent => `
-          <p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>
-        `).join('');
-  
+        agentsListElement.innerHTML = agents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
+
         // Display simplified pagination with 'back' and 'next' buttons
         const paginationElement = document.getElementById('pagination');
         paginationElement.innerHTML = `
           <button onclick="changePage('back')">Back</button>
           <button onclick="changePage('next')">Next</button>
         `;
-  
+
       } catch (error) {
         console.error(error);
       }
     }
-  
+
     // Function to change the current page
     function changePage(direction) {
       if (direction === 'back' && currentPage > 1) {
@@ -98,11 +108,13 @@
       } else if (direction === 'next') {
         currentPage++;
       }
-  
+
       fetchData(currentPage);
     }
-  
+
     // Call the fetchData function when the page loads
     fetchData(currentPage);
   </script>
-  
+
+</body>
+</html>
