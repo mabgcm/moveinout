@@ -8,14 +8,20 @@
 </head>
 <body>
 
+  <div id="agentsList"></div>
+  <div id="pagination"></div>
+
   <script>
-    async function fetchData() {
+    const pageSize = 10; // Number of agents per page
+    let currentPage = 1; // Initial page
+
+    async function fetchData(page) {
       const options = {
         method: 'GET',
         url: 'https://realty-in-ca1.p.rapidapi.com/agents/list',
         params: {
-          CurrentPage: '1',
-          RecordsPerPage: '50',
+          CurrentPage: page.toString(),
+          RecordsPerPage: pageSize.toString(),
           SortOrder: 'A',
           SortBy: '11',
           CultureId: '1'
@@ -28,19 +34,50 @@
 
       try {
         const response = await axios.request(options);
-
-        // Access the agent names from the "Results" array
         const agents = response.data.Results;
 
-        // Check if agents is an array
-        if (Array.isArray(agents)) {
-          // Iterate through the array and print agent names
-          agents.forEach(agent => {
-            console.log(agent.Name);
-          });
-        } else {
-          console.error('Invalid data format inside "Results". Expected an array.');
+        // Display agent names on the screen
+        const agentsListElement = document.getElementById('agentsList');
+        agentsListElement.innerHTML = agents.map(agent => `<p><a href="#" onclick="showAgentDetails(${agent.IndividualID})">${agent.Name}</a></p>`).join('');
+
+        // Display pagination
+        const totalRecords = response.data.Paging.TotalRecords;
+        const totalPages = Math.ceil(totalRecords / pageSize);
+        const paginationElement = document.getElementById('pagination');
+        paginationElement.innerHTML = Array.from({ length: totalPages }, (_, i) => `<button onclick="changePage(${i + 1})">${i + 1}</button>`).join('');
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // Function to change the current page
+    function changePage(newPage) {
+      currentPage = newPage;
+      fetchData(currentPage);
+    }
+
+    // Function to show agent details
+    async function showAgentDetails(agentId) {
+      const detailsOptions = {
+        method: 'GET',
+        url: 'https://realty-in-ca1.p.rapidapi.com/agents/detail',
+        params: {
+          id: agentId.toString(),
+          CultureId: '1'
+        },
+        headers: {
+          'X-RapidAPI-Key': 'ce9b429e15mshaf6b1f44d80613dp19c8c7jsn0ee4ac1f1e5e',
+          'X-RapidAPI-Host': 'realty-in-ca1.p.rapidapi.com'
         }
+      };
+
+      try {
+        const detailsResponse = await axios.request(detailsOptions);
+        const agentDetails = detailsResponse.data;
+
+        // Display agent details as needed
+        console.log(agentDetails);
 
       } catch (error) {
         console.error(error);
@@ -48,7 +85,7 @@
     }
 
     // Call the fetchData function when the page loads
-    fetchData();
+    fetchData(currentPage);
   </script>
 
 </body>
