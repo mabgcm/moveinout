@@ -42,10 +42,25 @@
           // Display agent details on the screen
           const agentDetailsElement = document.getElementById('agentDetails');
           agentDetailsElement.innerHTML = `
-            <h2>${agentDetails.Name}</h2>
+          <h2>${agentDetails.Name}</h2>
+          <p>Photo High Resolution: <img src="${agentDetails.PhotoHighRes}" alt="Agent Photo" style="max-width: 200px;"></p>
             <p>Organization: ${agentDetails.Organization.Name}</p>
+            <p>Position: ${agentDetails.Position}</p>
             <p>Email: ${agentDetails.Emails[0].ContactId}</p>
-            <!-- Add more details as needed -->
+            <p>Phone: ${agentDetails.Phones[0].AreaCode} ${agentDetails.Phones[0].PhoneNumber}</p>
+            <p>Address: ${agentDetails.Organization.Address.AddressText}</p>
+            <p>Website: ${agentDetails.Organization.Websites[0].Website}</p>
+            <p>Has Listings: ${agentDetails.HasOrganizationListings ? 'Yes' : 'No'}</p>
+            <p>Corporation Display Type: ${agentDetails.CorporationDisplayTypeId}</p>
+            <p>Relative Details URL: ${agentDetails.RelativeDetailsURL}</p>
+            <p>Agent Photo Last Updated: ${agentDetails.AgentPhotoLastUpdated}</p>
+            <p>RealSatisfied Key: ${agentDetails.RealSatisfiedKey}</p>
+            <p>RankMyAgent Key: ${agentDetails.RankMyAgentKey}</p>
+            <p>Testimonial Tree Key: ${agentDetails.TestimonialTreeKey}</p>
+            <p>Error Code: ${agentDetails.ErrorCode.Id}</p>
+            <p>Error Description: ${agentDetails.ErrorCode.Description}</p>
+            <p>Error Product Name: ${agentDetails.ErrorCode.ProductName}</p>
+            <p>Error Version: ${agentDetails.ErrorCode.Version}</p>
           `;
 
         } catch (error) {
