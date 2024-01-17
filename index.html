@@ -73,7 +73,9 @@
           RecordsPerPage: pageSize.toString(),
           SortOrder: 'A',
           SortBy: '11',
-          CultureId: '1'
+          CultureId: '1',
+          City: 'toronto', // Add this line to filter for Toronto
+          ProvinceIds: '2' // Add this line to filter for Ontario
         },
         headers: {
           'X-RapidAPI-Key': 'ce9b429e15mshaf6b1f44d80613dp19c8c7jsn0ee4ac1f1e5e',
@@ -85,12 +87,9 @@
         const response = await axios.request(options);
         const agents = response.data.Results;
 
-        // Filter agents based on address (include only those in Toronto)
-        const torontoAgents = agents.filter(agent => agent.Address.AddressText.includes('Toronto'));
-
         // Display agent names on the screen
         const agentsListElement = document.getElementById('agentsList');
-        agentsListElement.innerHTML = torontoAgents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
+        agentsListElement.innerHTML = agents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
 
         // Display simplified pagination with 'back' and 'next' buttons
         const paginationElement = document.getElementById('pagination');
