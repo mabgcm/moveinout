@@ -85,9 +85,12 @@
         const response = await axios.request(options);
         const agents = response.data.Results;
 
+        // Filter agents based on address (include only those in Toronto)
+        const torontoAgents = agents.filter(agent => agent.Address.AddressText.includes('Toronto'));
+
         // Display agent names on the screen
         const agentsListElement = document.getElementById('agentsList');
-        agentsListElement.innerHTML = agents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
+        agentsListElement.innerHTML = torontoAgents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
 
         // Display simplified pagination with 'back' and 'next' buttons
         const paginationElement = document.getElementById('pagination');
