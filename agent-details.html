@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Details</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+  <div id="agentDetails"></div>
+
+  <script>
+    // Function to extract the agent ID from the query parameters
+    function getAgentIdFromQuery() {
+      const queryParams = new URLSearchParams(window.location.search);
+      return queryParams.get('id');
+    }
+
+    // Function to fetch and display agent details
+    async function fetchAgentDetails() {
+      const agentId = getAgentIdFromQuery();
+
+      if (agentId) {
+        const options = {
+          method: 'GET',
+          url: `https://realty-in-ca1.p.rapidapi.com/agents/detail`,
+          params: {
+            id: agentId,
+            CultureId: '1'
+          },
+          headers: {
+            'X-RapidAPI-Key': 'ce9b429e15mshaf6b1f44d80613dp19c8c7jsn0ee4ac1f1e5e',
+            'X-RapidAPI-Host': 'realty-in-ca1.p.rapidapi.com'
+          }
+        };
+
+        try {
+          const response = await axios.request(options);
+          const agentDetails = response.data;
+
+          // Display agent details on the screen
+          const agentDetailsElement = document.getElementById('agentDetails');
+          agentDetailsElement.innerHTML = `
+            <h2>${agentDetails.Name}</h2>
+            <p>Organization: ${agentDetails.Organization.Name}</p>
+            <p>Email: ${agentDetails.Emails[0].ContactId}</p>
+            <!-- Add more details as needed -->
+          `;
+
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        console.error('Agent ID not provided in the query parameters.');
+      }
+    }
+
+    // Call the fetchAgentDetails function when the page loads
+    fetchAgentDetails();
+  </script>
+
+</body>
+</html>

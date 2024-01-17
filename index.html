@@ -11,8 +11,6 @@
   <div id="agentsList"></div>
   <div id="pagination"></div>
 
-  <div id="agentDetails"></div>
-
   <script>
     const pageSize = 10; // Number of agents per page
     let currentPage = 1; // Initial page
@@ -40,32 +38,41 @@
 
         // Display agent names on the screen
         const agentsListElement = document.getElementById('agentsList');
-        agentsListElement.innerHTML = agents.map(agent => `<p><a href="#" onclick="showAgentDetails(${agent.IndividualID})">${agent.Name}</a></p>`).join('');
+        agentsListElement.innerHTML = agents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
 
-        // Display pagination
-        const totalRecords = response.data.Paging.TotalRecords;
-        const totalPages = Math.ceil(totalRecords / pageSize);
+        // Generate pagination based on the first letter of the last name
+        const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
         const paginationElement = document.getElementById('pagination');
-        paginationElement.innerHTML = Array.from({ length: totalPages }, (_, i) => `<button onclick="changePage(${i + 1})">${i + 1}</button>`).join('');
+        paginationElement.innerHTML = alphabet.map(letter => `<button onclick="changePageByLetter('${letter}')">${letter}</button>`).join('');
 
       } catch (error) {
         console.error(error);
       }
     }
 
-    // Function to change the current page
-    function changePage(newPage) {
-      currentPage = newPage;
-      fetchData(currentPage);
+    // Function to change the current page by letter
+    function changePageByLetter(letter) {
+      fetchDataByLetter(letter);
     }
 
-    // Function to show agent details
-    async function showAgentDetails(agentId) {
-      const detailsOptions = {
+    // Function to fetch data based on the letter
+    async function fetchDataByLetter(letter) {
+      // Simulate server-side logic to filter agents by last name
+      const filteredAgents = await simulateServerSideFilter(letter);
+
+      // Display filtered agents
+      const agentsListElement = document.getElementById('agentsList');
+      agentsListElement.innerHTML = filteredAgents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
+    }
+
+    // Simulated server-side logic to filter agents by last name
+    async function simulateServerSideFilter(letter) {
+      const options = {
         method: 'GET',
-        url: 'https://realty-in-ca1.p.rapidapi.com/agents/detail',
+        url: 'https://realty-in-ca1.p.rapidapi.com/agents/list',
         params: {
-          id: agentId.toString(),
+          SortOrder: 'A',
+          SortBy: '11',
           CultureId: '1'
         },
         headers: {
@@ -75,23 +82,17 @@
       };
 
       try {
-        const detailsResponse = await axios.request(detailsOptions);
-        const agentDetails = detailsResponse.data;
+        const response = await axios.request(options);
+        const allAgents = response.data.Results;
 
-        // Display agent details on the screen
-        const agentDetailsElement = document.getElementById('agentDetails');
-        agentDetailsElement.innerHTML = `
-          <h2>${agentDetails.Name}</h2>
-          <p>Organization: ${agentDetails.Organization.Name}</p>
-          <p>Email: ${agentDetails.Emails[0].ContactId}</p>
-          <!-- Add more details as needed -->
-        `;
+        // Filter agents based on the first letter of the last name
+        const filteredAgents = allAgents.filter(agent => agent.LastName.charAt(0).toUpperCase() === letter);
 
-        // Simulate navigation to a different page
-        window.location.hash = `agent/${agentId}`;
+        return filteredAgents;
 
       } catch (error) {
         console.error(error);
+        return [];
       }
     }
 
