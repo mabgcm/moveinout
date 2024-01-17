@@ -48,7 +48,7 @@
                 <p style="margin-bottom: 5px;">Organization: ${agentDetails.Organization.Name}</p>
                 <p style="margin-bottom: 5px;">Position: ${agentDetails.Position}</p>
                 <p style="margin-bottom: 5px;">Address: ${agentDetails.Organization.Address.AddressText}</p>
-                <p style="margin-bottom: 5px;">Website: <a href="${agentDetails.Organization.Websites[0].Website}" target="_blank">${agentDetails.Organization.Websites[0].Website}</a></p>
+                ${agentDetails.Organization.Websites && agentDetails.Organization.Websites.length > 0 ? `<p style="margin-bottom: 5px;">Website: <a href="${agentDetails.Organization.Websites[0].Website}" target="_blank">${agentDetails.Organization.Websites[0].Website}</a></p>` : ''}
                 <p style="margin-bottom: 5px;">Relative Details URL: <a href="https://realtor.ca${agentDetails.RelativeDetailsURL}" target="_blank">realtor.ca${agentDetails.RelativeDetailsURL}</a></p>
             </div>
           `;
