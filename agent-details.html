@@ -42,26 +42,19 @@
           // Display agent details on the screen
           const agentDetailsElement = document.getElementById('agentDetails');
           agentDetailsElement.innerHTML = `
-          <h2>${agentDetails.Name}</h2>
-          <p>Photo High Resolution: <img src="${agentDetails.PhotoHighRes}" alt="Agent Photo" style="max-width: 200px;"></p>
-            <p>Organization: ${agentDetails.Organization.Name}</p>
-            <p>Position: ${agentDetails.Position}</p>
-            <p>Email: ${agentDetails.Emails[0].ContactId}</p>
-            <p>Phone: ${agentDetails.Phones[0].AreaCode} ${agentDetails.Phones[0].PhoneNumber}</p>
-            <p>Address: ${agentDetails.Organization.Address.AddressText}</p>
-            <p>Website: ${agentDetails.Organization.Websites[0].Website}</p>
-            <p>Has Listings: ${agentDetails.HasOrganizationListings ? 'Yes' : 'No'}</p>
-            <p>Corporation Display Type: ${agentDetails.CorporationDisplayTypeId}</p>
-            <p>Relative Details URL: ${agentDetails.RelativeDetailsURL}</p>
-            <p>Agent Photo Last Updated: ${agentDetails.AgentPhotoLastUpdated}</p>
-            <p>RealSatisfied Key: ${agentDetails.RealSatisfiedKey}</p>
-            <p>RankMyAgent Key: ${agentDetails.RankMyAgentKey}</p>
-            <p>Testimonial Tree Key: ${agentDetails.TestimonialTreeKey}</p>
-            <p>Error Code: ${agentDetails.ErrorCode.Id}</p>
-            <p>Error Description: ${agentDetails.ErrorCode.Description}</p>
-            <p>Error Product Name: ${agentDetails.ErrorCode.ProductName}</p>
-            <p>Error Version: ${agentDetails.ErrorCode.Version}</p>
-          `;
+            <div style="max-width: 400px; margin: auto;">
+                <h2 style="font-size: 1.5em; margin-bottom: 10px;">${agentDetails.Name}</h2>
+                <img src="${agentDetails.PhotoHighRes}" alt="Agent Photo" style="max-width: 100%; border-radius: 5px; margin-bottom: 15px;">
+                <p style="margin-bottom: 5px;">Organization: ${agentDetails.Organization.Name}</p>
+                <p style="margin-bottom: 5px;">Position: ${agentDetails.Position}</p>
+                <p style="margin-bottom: 5px;">Email: ${agentDetails.Emails[0].ContactId}</p>
+                <p style="margin-bottom: 5px;">Phone: ${agentDetails.Phones[0].AreaCode} ${agentDetails.Phones[0].PhoneNumber}</p>
+                <p style="margin-bottom: 5px;">Address: ${agentDetails.Organization.Address.AddressText}</p>
+                <p style="margin-bottom: 5px;">Website: <a href="${agentDetails.Organization.Websites[0].Website}" target="_blank">${agentDetails.Organization.Websites[0].Website}</a></p>
+                <p style="margin-bottom: 5px;">Relative Details URL: <a href="https://realtor.ca${agentDetails.RelativeDetailsURL}" target="_blank">realtor.ca${agentDetails.RelativeDetailsURL}</a></p>
+            </div>
+`;
+
 
         } catch (error) {
           console.error(error);
