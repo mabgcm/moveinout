@@ -30,10 +30,15 @@
         const response = await axios.request(options);
         const agents = response.data;
 
-        // Iterate through the array and print agent names
-        agents.forEach(agent => {
-          console.log(agent.Name);
-        });
+        // Check if agents is an array
+        if (Array.isArray(agents)) {
+          // Iterate through the array and print agent names
+          agents.forEach(agent => {
+            console.log(agent.Name);
+          });
+        } else {
+          console.error('Invalid data format. Expected an array.');
+        }
 
       } catch (error) {
         console.error(error);
