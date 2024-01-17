@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Agent:</title>
+  <title>Agent:</title>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -39,9 +39,6 @@
           const response = await axios.request(options);
           const agentDetails = response.data;
 
-          // Set the page title to the agent's name
-          document.getElementById('pageTitle').innerText = `Agent Details - ${agentDetails.Name}`;
-
           // Display agent details on the screen
           const agentDetailsElement = document.getElementById('agentDetails');
           agentDetailsElement.innerHTML = `
@@ -50,7 +47,7 @@
                 <img src="${agentDetails.PhotoHighRes}" alt="Agent Photo" style="max-width: 100%; border-radius: 5px; margin-bottom: 15px;">
                 <p style="margin-bottom: 5px;">Organization: ${agentDetails.Organization.Name}</p>
                 <p style="margin-bottom: 5px;">Position: ${agentDetails.Position}</p>
-                <p style="margin-bottom: 5px;">Email: ${agentDetails.Emails[0].ContactId}</p>
+                ${agentDetails.Emails && agentDetails.Emails.length > 0 ? `<p style="margin-bottom: 5px;">Email: ${agentDetails.Emails[0].ContactId}</p>` : ''}
                 <p style="margin-bottom: 5px;">Phone: ${agentDetails.Phones[0].AreaCode} ${agentDetails.Phones[0].PhoneNumber}</p>
                 <p style="margin-bottom: 5px;">Address: ${agentDetails.Organization.Address.AddressText}</p>
                 <p style="margin-bottom: 5px;">Website: <a href="${agentDetails.Organization.Websites[0].Website}" target="_blank">${agentDetails.Organization.Websites[0].Website}</a></p>
