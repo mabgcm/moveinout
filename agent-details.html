@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent Details</title>
+  <title id="pageTitle">Agent Details</title>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -39,6 +39,9 @@
           const response = await axios.request(options);
           const agentDetails = response.data;
 
+          // Set the page title to the agent's name
+          document.getElementById('pageTitle').innerText = `Agent Details - ${agentDetails.Name}`;
+
           // Display agent details on the screen
           const agentDetailsElement = document.getElementById('agentDetails');
           agentDetailsElement.innerHTML = `
@@ -53,8 +56,7 @@
                 <p style="margin-bottom: 5px;">Website: <a href="${agentDetails.Organization.Websites[0].Website}" target="_blank">${agentDetails.Organization.Websites[0].Website}</a></p>
                 <p style="margin-bottom: 5px;">Relative Details URL: <a href="https://realtor.ca${agentDetails.RelativeDetailsURL}" target="_blank">realtor.ca${agentDetails.RelativeDetailsURL}</a></p>
             </div>
-`;
-
+          `;
 
         } catch (error) {
           console.error(error);

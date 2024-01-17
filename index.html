@@ -1,20 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent Names</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
-<body>
-
-  <div id="agentsList"></div>
-  <div id="pagination"></div>
-
+<style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    #agentsList {
+      max-width: 600px;
+      margin-bottom: 20px;
+    }
+  
+    #agentsList p {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  
+    #agentsList a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+  
+    #pagination {
+      display: flex;
+      gap: 10px;
+    }
+  
+    #pagination button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+  
+    #pagination button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  
   <script>
-    const pageSize = 100; // Number of agents per page
+    const pageSize = 10; // Number of agents per page
     let currentPage = 1; // Initial page
-
+  
     async function fetchData(page) {
       const options = {
         method: 'GET',
@@ -31,27 +68,29 @@
           'X-RapidAPI-Host': 'realty-in-ca1.p.rapidapi.com'
         }
       };
-
+  
       try {
         const response = await axios.request(options);
         const agents = response.data.Results;
-
+  
         // Display agent names on the screen
         const agentsListElement = document.getElementById('agentsList');
-        agentsListElement.innerHTML = agents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
-
+        agentsListElement.innerHTML = agents.map(agent => `
+          <p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>
+        `).join('');
+  
         // Display simplified pagination with 'back' and 'next' buttons
         const paginationElement = document.getElementById('pagination');
         paginationElement.innerHTML = `
           <button onclick="changePage('back')">Back</button>
           <button onclick="changePage('next')">Next</button>
         `;
-
+  
       } catch (error) {
         console.error(error);
       }
     }
-
+  
     // Function to change the current page
     function changePage(direction) {
       if (direction === 'back' && currentPage > 1) {
@@ -59,13 +98,11 @@
       } else if (direction === 'next') {
         currentPage++;
       }
-
+  
       fetchData(currentPage);
     }
-
+  
     // Call the fetchData function when the page loads
     fetchData(currentPage);
   </script>
-
-</body>
-</html>
+  
