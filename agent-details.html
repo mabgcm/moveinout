@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent:</title>
+  <title>Agent Details</title>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -48,7 +48,7 @@
                 <p style="margin-bottom: 5px;">Organization: ${agentDetails.Organization.Name}</p>
                 <p style="margin-bottom: 5px;">Position: ${agentDetails.Position}</p>
                 ${agentDetails.Emails && agentDetails.Emails.length > 0 ? `<p style="margin-bottom: 5px;">Email: ${agentDetails.Emails[0].ContactId}</p>` : ''}
-                <p style="margin-bottom: 5px;">Phone: ${agentDetails.Phones[0].AreaCode} ${agentDetails.Phones[0].PhoneNumber}</p>
+                ${agentDetails.Phones && agentDetails.Phones.length > 0 ? `<p style="margin-bottom: 5px;">Phone: ${agentDetails.Phones[0].AreaCode} ${agentDetails.Phones[0].PhoneNumber}</p>` : ''}
                 <p style="margin-bottom: 5px;">Address: ${agentDetails.Organization.Address.AddressText}</p>
                 <p style="margin-bottom: 5px;">Website: <a href="${agentDetails.Organization.Websites[0].Website}" target="_blank">${agentDetails.Organization.Websites[0].Website}</a></p>
                 <p style="margin-bottom: 5px;">Relative Details URL: <a href="https://realtor.ca${agentDetails.RelativeDetailsURL}" target="_blank">realtor.ca${agentDetails.RelativeDetailsURL}</a></p>
