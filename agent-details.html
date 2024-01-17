@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent Details</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title id="pageTitle">Agent: </title>  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 
@@ -38,6 +37,10 @@
         try {
           const response = await axios.request(options);
           const agentDetails = response.data;
+
+          // Set the page title to the agent's name
+          document.getElementById('pageTitle').innerText = `Agent: ${agentDetails.Name}`;
+
 
           // Display agent details on the screen
           const agentDetailsElement = document.getElementById('agentDetails');
