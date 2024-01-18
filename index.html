@@ -89,6 +89,7 @@
 
         // Display agent names on the screen
         const agentsListElement = document.getElementById('agentsList');
+        
         agentsListElement.innerHTML = agents.map(agent => `<p><a href="agent-details.html?id=${agent.IndividualID}" target="_blank">${agent.Name}</a></p>`).join('');
 
         // Display simplified pagination with 'back' and 'next' buttons
